@@ -1,0 +1,118 @@
+body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+}
+
+.gamecard {
+    background-color: skyblue;
+    position: relative;
+    border-radius: 10px;
+    border: 1px solid black;
+    width: 100vw;
+    height: 500px;
+    overflow: hidden;
+}
+.platform {
+    position: absolute;
+    background-color: green;
+}
+.groundclass {
+    position: absolute;
+    background-color: #f8d7da;
+}
+.coin {
+    position: absolute;
+    background-color: yellow;
+    border-radius: 10px;
+    width: 20px;
+    height: 20px;
+}
+/* .ballclass{
+  left:30px;
+  top:300px;
+  background-color:red;
+  border-radius:20px;
+  width:40px;
+  height:40px;
+  position:absolute;
+} */
+.spike {
+    position: absolute;
+    background-color: black;
+    /* triangle pointing up */
+    clip-path: polygon(50% 0%, 0% 100%, 100% 100%);
+}
+.menu {
+    position: absolute;
+    z-index: 10;
+    width: 200px;
+    height: 50px;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    display: none;
+}
+.menu button {
+    padding: 10px 20px;
+    background-color: #aed6f1;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.menu button:hover {
+    background-color: #85c1e9;
+}
+#mobile_controls {
+    position: absolute;
+    bottom: 40px;
+    right: 10px;
+    display: flex;
+    gap: 10px;
+}
+#mobile_controls button {
+    width: 40px;
+    height: 40px;
+    padding: 10px;
+    background-color: #aed6f1;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.gamewinmenu {
+    position: absolute;
+    z-index: 10;
+    width: 340px;
+    height: 220px;
+    background-color: #aed6f1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    display: none;
+    text-align: center;
+    border-radius: 10px;
+}
+.wintext {
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
+}
+.gamewinmenu button {
+    padding: 10px 20px;
+    background-color: #85c1e9;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.gamewinmenu button:hover {
+    background-color: aliceblue;
+}
