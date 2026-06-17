@@ -4,9 +4,17 @@ const winmenu = document.querySelector(".gamewinmenu");
 const wintext = document.createElement("div");
 wintext.classList.add("wintext");
 winmenu.insertBefore(wintext, winmenu.firstChild);
-
 const gravity = 0.4;
+const helpbtn = document.querySelector("#helpbtn");
+const helpmenu = document.querySelector(".helpmenu");
 
+helpbtn.addEventListener("click", () => {
+  helpmenu.style.display = "flex";
+});
+const helpclosebtn = document.querySelector("#helpclosebtn");
+helpclosebtn.addEventListener("click", () => {
+  helpmenu.style.display = "none";
+});
 let camerax = 0;
 let scrollthreshhold = window.innerWidth / 2;
 const ball = {
@@ -273,11 +281,12 @@ const ballhitwindoor = () => {
 
     let lastlvl = current_lvl + 1;
     if (lastlvl >= levels.length) {
-      winmenu.innerHTML = "";
-      winmenu.innerHTML = "YOU WIN!<br>your score is " + score;
+      wintext.innerHTML = "YOU WIN!<br>your score is " + score;
+      thenextbtn.style.display = "none";
       winmenu.style.display = "flex";
     } else {
       wintext.innerHTML = "YOU WIN!<br>your score is " + score;
+      thenextbtn.style.display = " ";
       winmenu.style.display = "flex";
     }
   }

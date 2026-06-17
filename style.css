@@ -48,7 +48,7 @@ body {
 .menu {
     position: absolute;
     z-index: 10;
-    width: 200px;
+    width: 300px;
     height: 50px;
     background-color: white;
     display: flex;
@@ -101,6 +101,9 @@ body {
     display: none;
     text-align: center;
     border-radius: 10px;
+    font-size: 32px;
+    font-weight: bold;
+    color: #333;
 }
 .wintext {
     font-size: 32px;
@@ -131,4 +134,74 @@ body {
     position: absolute;
     bottom: 40px;
     right: 10px;
+}
+.helpmenu {
+    position: absolute;
+    z-index: 20;
+    width: 360px;
+    height: 420px;
+    background-color: #aed6f1;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 18px;
+    display: none;
+    text-align: center;
+    border-radius: 10px;
+    padding: 20px;
+    box-sizing: border-box;
+    color: #333;
+}
+.helpmenu .helptitle {
+    font-size: 32px;
+    font-weight: bold;
+}
+.helpmenu .helptext {
+    font-size: 16px;
+    color: #555;
+}
+.helpmenu .helpcontrols {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    width: 100%;
+    align-items: center;
+}
+.helpmenu .helprow {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 20px;
+    width: 220px;
+    justify-content: flex-start;
+}
+.helpmenu .key {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    min-width: 70px;
+    height: 40px;
+    padding: 0 10px;
+    background-color: white;
+    border: 2px solid #85c1e9;
+    border-radius: 6px;
+    font-weight: bold;
+    font-size: 16px;
+}
+.helpmenu .helpgoal {
+    font-size: 18px;
+    font-weight: bold;
+    margin-top: 6px;
+    line-height: 1.4;
+}
+.helpmenu button {
+    padding: 10px 24px;
+    background-color: #85c1e9;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+}
+.helpmenu button:hover {
+    background-color: aliceblue;
 }
