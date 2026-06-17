@@ -76,8 +76,8 @@ body {
     z-index: 50;
 }
 #mobile_controls button {
-    width: 40px;
-    height: 40px;
+    width: 80px;
+    height: 80px;
     padding: 10px;
     background-color: #aed6f1;
     border: none;
@@ -125,7 +125,7 @@ body {
 #mobile_controls #rightbtn {
     position: absolute;
     bottom: 40px;
-    left: 60px;
+    left: 90px;
 }
 #mobile_controls #jumpbtn {
     position: absolute;
