@@ -20,137 +20,116 @@ const ball = {
   onground: false,
 };
 let gamerunning = false;
-
+let current_lvl = 0;
 let score = 0;
 let leveldisp = 1 + "/3";
 //let spikehit = false;
-const game_screen_width = window.innerWidth;
+
+const levels = [
+  {
+    level_width: 800,
+    ground: { x: 0, y: 420, width: 800, height: 80, color: "#f8d7da" },
+    windoor: { x: 720, y: 380, width: 60, height: 40, color: "purple" },
+    platforms: [
+      { x: 150, y: 330, width: 100, height: 60, color: "#aed6f1" },
+      { x: 310, y: 280, width: 100, height: 60, color: "#aed6f1" },
+      { x: 470, y: 330, width: 100, height: 60, color: "#aed6f1" },
+      { x: 590, y: 270, width: 90, height: 60, color: "#aed6f1" },
+    ],
+    coins: [
+      { x: 190, y: 295, isCollected: false, height: 20, width: 20 },
+      { x: 350, y: 245, isCollected: false, height: 20, width: 20 },
+      { x: 510, y: 295, isCollected: false, height: 20, width: 20 },
+      { x: 615, y: 235, isCollected: false, height: 20, width: 20 },
+      { x: 740, y: 360, isCollected: false, height: 20, width: 20 },
+    ],
+    spikes: [
+      { x: 400, y: 400, width: 20, height: 20 },
+      { x: 420, y: 400, width: 20, height: 20 },
+    ],
+  },
+  {
+    level_width: 2000,
+    ground: { x: 0, y: 420, width: 2000, height: 80, color: "#f8d7da" },
+    windoor: { x: 1900, y: 380, width: 100, height: 40, color: "purple" },
+    platforms: [
+      { x: 100, y: 310, width: 110, height: 60, color: "#aed6f1" },
+      { x: 260, y: 310, width: 120, height: 60, color: "#aed6f1" },
+      { x: 390, y: 210, width: 100, height: 55, color: "#aed6f1" },
+      { x: 540, y: 330, width: 100, height: 60, color: "#aed6f1" },
+      { x: 700, y: 280, width: 90, height: 55, color: "#aed6f1" },
+      { x: 850, y: 330, width: 100, height: 60, color: "#aed6f1" },
+      { x: 1000, y: 280, width: 90, height: 55, color: "#aed6f1" },
+      { x: 1140, y: 230, width: 100, height: 55, color: "#aed6f1" },
+      { x: 1290, y: 280, width: 90, height: 55, color: "#aed6f1" },
+      { x: 1430, y: 330, width: 100, height: 60, color: "#aed6f1" },
+      { x: 1580, y: 280, width: 90, height: 55, color: "#aed6f1" },
+      { x: 1720, y: 240, width: 120, height: 55, color: "#aed6f1" },
+      { x: 1880, y: 200, width: 110, height: 55, color: "#aed6f1" },
+    ],
+    coins: [
+      { x: 155, y: 270, isCollected: false, height: 20, width: 20 },
+      { x: 295, y: 270, isCollected: false, height: 20, width: 20 },
+      { x: 325, y: 270, isCollected: false, height: 20, width: 20 },
+      { x: 420, y: 185, isCollected: false, height: 20, width: 20 },
+      { x: 1800, y: 200, isCollected: false, height: 20, width: 20 },
+      { x: 585, y: 290, isCollected: false, height: 20, width: 20 },
+      { x: 735, y: 240, isCollected: false, height: 20, width: 20 },
+      { x: 895, y: 290, isCollected: false, height: 20, width: 20 },
+      { x: 1040, y: 240, isCollected: false, height: 20, width: 20 },
+      { x: 1180, y: 190, isCollected: false, height: 20, width: 20 },
+      { x: 1325, y: 240, isCollected: false, height: 20, width: 20 },
+      { x: 1470, y: 290, isCollected: false, height: 20, width: 20 },
+      { x: 1615, y: 240, isCollected: false, height: 20, width: 20 },
+      { x: 1925, y: 160, isCollected: false, height: 20, width: 20 },
+    ],
+    spikes: [
+      { x: 211, y: 400, width: 20, height: 20 },
+      { x: 232, y: 400, width: 20, height: 20 },
+      { x: 385, y: 400, width: 20, height: 20 },
+      { x: 406, y: 400, width: 20, height: 20 },
+      { x: 660, y: 400, width: 20, height: 20 },
+      { x: 680, y: 400, width: 20, height: 20 },
+      { x: 810, y: 400, width: 20, height: 20 },
+      { x: 830, y: 400, width: 20, height: 20 },
+      { x: 960, y: 400, width: 20, height: 20 },
+      { x: 980, y: 400, width: 20, height: 20 },
+      { x: 1100, y: 400, width: 20, height: 20 },
+      { x: 1120, y: 400, width: 20, height: 20 },
+      { x: 1250, y: 400, width: 20, height: 20 },
+      { x: 1270, y: 400, width: 20, height: 20 },
+      { x: 1390, y: 400, width: 20, height: 20 },
+      { x: 1410, y: 400, width: 20, height: 20 },
+      { x: 1540, y: 400, width: 20, height: 20 },
+      { x: 1560, y: 400, width: 20, height: 20 },
+      { x: 1680, y: 400, width: 20, height: 20 },
+      { x: 1700, y: 400, width: 20, height: 20 },
+    ],
+  },
+];
+
+let game_screen_width =
+  window.innerWidth < levels[current_lvl].level_width
+    ? window.innerWidth
+    : levels[current_lvl].level_width;
 const game_screen = { width: 500, height: 500 };
 const game_world = document.createElement("div");
-
-const level = {
-  level_width: 2000,
-  ground: { x: 0, y: 420, width: 2000, height: 80, color: "#f8d7da" },
-  windoor: { x: 1900, y: 380, width: 100, height: 40, color: "purple" },
-  platforms: [
-    { x: 100, y: 310, width: 110, height: 60, color: "#aed6f1" },
-    { x: 260, y: 310, width: 120, height: 60, color: "#aed6f1" },
-    { x: 390, y: 210, width: 100, height: 55, color: "#aed6f1" },
-    { x: 540, y: 330, width: 100, height: 60, color: "#aed6f1" },
-    { x: 700, y: 280, width: 90, height: 55, color: "#aed6f1" },
-    { x: 850, y: 330, width: 100, height: 60, color: "#aed6f1" },
-    { x: 1000, y: 280, width: 90, height: 55, color: "#aed6f1" },
-    { x: 1140, y: 230, width: 100, height: 55, color: "#aed6f1" },
-    { x: 1290, y: 280, width: 90, height: 55, color: "#aed6f1" },
-    { x: 1430, y: 330, width: 100, height: 60, color: "#aed6f1" },
-    { x: 1580, y: 280, width: 90, height: 55, color: "#aed6f1" },
-    { x: 1720, y: 240, width: 120, height: 55, color: "#aed6f1" },
-    { x: 1880, y: 200, width: 110, height: 55, color: "#aed6f1" },
-  ],
-  coins: [
-    { x: 155, y: 270, isCollected: false, height: 20, width: 20 },
-    { x: 295, y: 270, isCollected: false, height: 20, width: 20 },
-    { x: 325, y: 270, isCollected: false, height: 20, width: 20 },
-    { x: 420, y: 185, isCollected: false, height: 20, width: 20 },
-    { x: 1800, y: 200, isCollected: false, height: 20, width: 20 },
-    { x: 585, y: 290, isCollected: false, height: 20, width: 20 },
-    { x: 735, y: 240, isCollected: false, height: 20, width: 20 },
-    { x: 895, y: 290, isCollected: false, height: 20, width: 20 },
-    { x: 1040, y: 240, isCollected: false, height: 20, width: 20 },
-    { x: 1180, y: 190, isCollected: false, height: 20, width: 20 },
-    { x: 1325, y: 240, isCollected: false, height: 20, width: 20 },
-    { x: 1470, y: 290, isCollected: false, height: 20, width: 20 },
-    { x: 1615, y: 240, isCollected: false, height: 20, width: 20 },
-    { x: 1925, y: 160, isCollected: false, height: 20, width: 20 },
-  ],
-  spikes: [
-    { x: 211, y: 400, width: 20, height: 20 },
-    { x: 232, y: 400, width: 20, height: 20 },
-    { x: 385, y: 400, width: 20, height: 20 },
-    { x: 406, y: 400, width: 20, height: 20 },
-    { x: 660, y: 400, width: 20, height: 20 },
-    { x: 680, y: 400, width: 20, height: 20 },
-    { x: 810, y: 400, width: 20, height: 20 },
-    { x: 830, y: 400, width: 20, height: 20 },
-    { x: 960, y: 400, width: 20, height: 20 },
-    { x: 980, y: 400, width: 20, height: 20 },
-    { x: 1100, y: 400, width: 20, height: 20 },
-    { x: 1120, y: 400, width: 20, height: 20 },
-    { x: 1250, y: 400, width: 20, height: 20 },
-    { x: 1270, y: 400, width: 20, height: 20 },
-    { x: 1390, y: 400, width: 20, height: 20 },
-    { x: 1410, y: 400, width: 20, height: 20 },
-    { x: 1540, y: 400, width: 20, height: 20 },
-    { x: 1560, y: 400, width: 20, height: 20 },
-    { x: 1680, y: 400, width: 20, height: 20 },
-    { x: 1700, y: 400, width: 20, height: 20 },
-  ],
-};
-game_world.style.width = level.level_width + "px";
 game_world.style.height = "500px";
 game_world.style.position = "absolute";
+game_world.style.backgroundColor = "skyblue";
 game.appendChild(game_world);
-//platforms dealing!!
-level.platforms.forEach((platform) => {
-  const platformdiv = document.createElement("div");
-  platformdiv.classList.add("platform");
-  platformdiv.style.left = platform.x + "px";
-  platformdiv.style.top = platform.y + "px";
-  platformdiv.style.width = platform.width + "px";
-  platformdiv.style.height = platform.height + "px";
-  game_world.appendChild(platformdiv);
-  console.log(platformdiv);
-});
-//deal with ground
-const grounddiv = document.createElement("div");
-grounddiv.classList.add("groundclass");
-grounddiv.style.position = "absolute";
-grounddiv.style.left = level.ground.x + "px";
-grounddiv.style.top = level.ground.y + "px";
-grounddiv.style.width = level.ground.width + "px";
-grounddiv.style.height = level.ground.height + "px";
 
-game_world.appendChild(grounddiv);
-//with coins
-level.coins.forEach((coin) => {
-  const coindiv = document.createElement("div");
-  coindiv.classList.add("coin");
-  coindiv.style.left = coin.x + "px";
-  coindiv.style.top = coin.y + "px";
-  game_world.appendChild(coindiv);
-  coin.element = coindiv;
-  console.log(coindiv);
-});
-
-//deal with ball
 const balldiv = document.createElement("div");
-//balldiv.classList.add("ballclass");
-balldiv.style.color = ball.color;
 balldiv.style.left = ball.x + "px";
 balldiv.style.top = ball.y + "px";
+balldiv.style.color = ball.color;
 balldiv.style.width = "40px";
 balldiv.style.height = "40px";
 balldiv.style.position = "absolute";
 balldiv.style.backgroundColor = ball.color;
 balldiv.style.borderRadius = "50%";
 game_world.appendChild(balldiv);
-// const isOnground = (ball) => {
-//   // console.log(ball.y);
-//   if (ball.y == level.ground.y - ball.height) {
-//     ball.y = level.ground.y - ball.height;
-//     ball.onground = true;
-//   }
-// };
-level.spikes.forEach((spike) => {
-  const spikesdiv = document.createElement("div");
-  spikesdiv.classList.add("spike");
-  spikesdiv.style.left = spike.x + "px";
-  spikesdiv.style.top = spike.y + "px";
-  spikesdiv.style.width = spike.width + "px";
-  spikesdiv.style.height = spike.height + "px";
-  game_world.appendChild(spikesdiv);
-  spike.element = spikesdiv;
-});
+
 const scoredisplay = document.createElement("div");
 scoredisplay.style.position = "absolute";
 scoredisplay.style.top = "10px";
@@ -162,14 +141,90 @@ leveldisplay.style.position = "absolute";
 leveldisplay.style.top = "30px";
 leveldisplay.style.left = "10px";
 game.appendChild(leveldisplay);
+
 const windoor = document.createElement("div");
 windoor.style.position = "absolute";
-windoor.style.top = level.windoor.y + "px";
-windoor.style.left = level.windoor.x + "px";
-windoor.style.width = level.windoor.width + "px";
-windoor.style.height = level.windoor.height + "px";
-windoor.style.backgroundColor = level.windoor.color;
 game_world.appendChild(windoor);
+
+const renderlvl = () => {
+  ball.x = 30;
+  ball.y = 300;
+  ball.vx = 0;
+  ball.vy = 0;
+  ball.onground = false;
+  camerax = 0;
+  score = 0;
+  game_screen_width = Math.min(
+    window.innerWidth,
+    levels[current_lvl].level_width,
+  );
+  levels[current_lvl].coins.forEach((c) => (c.isCollected = false));
+  // wipe the old level's DOM (keep the persistent ball + windoor elements)
+  Array.from(game_world.children).forEach((child) => {
+    if (child !== balldiv && child !== windoor) child.remove();
+  });
+  game_world.style.width = levels[current_lvl].level_width + "px";
+
+  //platforms dealing!!
+  levels[current_lvl].platforms.forEach((platform) => {
+    const platformdiv = document.createElement("div");
+    platformdiv.classList.add("platform");
+    platformdiv.style.left = platform.x + "px";
+    platformdiv.style.top = platform.y + "px";
+    platformdiv.style.width = platform.width + "px";
+    platformdiv.style.height = platform.height + "px";
+    game_world.appendChild(platformdiv);
+    console.log(platformdiv);
+  });
+  //deal with ground
+  const grounddiv = document.createElement("div");
+  grounddiv.classList.add("groundclass");
+  grounddiv.style.position = "absolute";
+  grounddiv.style.left = levels[current_lvl].ground.x + "px";
+  grounddiv.style.top = levels[current_lvl].ground.y + "px";
+  grounddiv.style.width = levels[current_lvl].ground.width + "px";
+  grounddiv.style.height = levels[current_lvl].ground.height + "px";
+
+  game_world.appendChild(grounddiv);
+  //with coins
+  levels[current_lvl].coins.forEach((coin) => {
+    const coindiv = document.createElement("div");
+    coindiv.classList.add("coin");
+    coindiv.style.left = coin.x + "px";
+    coindiv.style.top = coin.y + "px";
+    game_world.appendChild(coindiv);
+    coin.element = coindiv;
+    console.log(coindiv);
+  });
+
+  // const isOnground = (ball) => {
+  //   // console.log(ball.y);
+  //   if (ball.y == level.ground.y - ball.height) {
+  //     ball.y = level.ground.y - ball.height;
+  //     ball.onground = true;
+  //   }
+  // };
+  levels[current_lvl].spikes.forEach((spike) => {
+    const spikesdiv = document.createElement("div");
+    spikesdiv.classList.add("spike");
+    spikesdiv.style.left = spike.x + "px";
+    spikesdiv.style.top = spike.y + "px";
+    spikesdiv.style.width = spike.width + "px";
+    spikesdiv.style.height = spike.height + "px";
+    game_world.appendChild(spikesdiv);
+    spike.element = spikesdiv;
+  });
+  // win door on top
+  windoor.style.left = levels[current_lvl].windoor.x + "px";
+  windoor.style.top = levels[current_lvl].windoor.y + "px";
+  windoor.style.width = levels[current_lvl].windoor.width + "px";
+  windoor.style.height = levels[current_lvl].windoor.height + "px";
+  windoor.style.backgroundColor = levels[current_lvl].windoor.color;
+  game_world.appendChild(windoor);
+
+  leveldisp = current_lvl + 1 + "/" + levels.length;
+};
+renderlvl();
 const rectangleOverlaps = (rect1, rect2) => {
   return (
     rect1.x < rect2.x + rect2.width &&
@@ -182,24 +237,24 @@ const ballhitPlatform = (paltform) => {
   return rectangleOverlaps(ball, paltform);
 };
 const ballhitCoin = () => {
-  level.coins.forEach((coin) => {
+  levels[current_lvl].coins.forEach((coin) => {
     if (rectangleOverlaps(ball, coin) && !coin.isCollected) {
       console.log(coin.isCollected);
       coin.isCollected = true;
-      console.log("spikehit");
+      console.log("coin is", coin);
       coin.element.style.display = "none";
       score++;
     }
   });
 };
 const ballhitSpike = () => {
-  level.spikes.forEach((spike) => {
+  levels[current_lvl].spikes.forEach((spike) => {
     if (rectangleOverlaps(ball, spike)) {
       ball.x = 0;
       ball.y = 400;
       ball.vx = 0;
       ball.vy = 0;
-      level.coins.forEach((coin) => {
+      levels[current_lvl].coins.forEach((coin) => {
         coin.isCollected = false;
         coin.element.style.display = "block";
       });
@@ -207,20 +262,31 @@ const ballhitSpike = () => {
     }
   });
 };
+
 const ballhitwindoor = () => {
-  if (rectangleOverlaps(ball, level.windoor)) {
+  if (rectangleOverlaps(ball, levels[current_lvl].windoor)) {
     ball.vx = 0;
     ball.vy = 0;
-    ball.x = "1910px";
-    ball.y = "400px";
-    wintext.innerHTML = "YOU WIN!<br>your score is " + score;
-    winmenu.style.display = "flex";
+    // nudge past the door (kept numeric!) so this doesn't re-fire each frame
+    ball.x =
+      levels[current_lvl].windoor.x + levels[current_lvl].windoor.width + 5;
+
+    let lastlvl = current_lvl + 1;
+    if (lastlvl >= levels.length) {
+      winmenu.innerHTML = "";
+      winmenu.innerHTML = "YOU WIN!<br>your score is " + score;
+      winmenu.style.display = "flex";
+    } else {
+      wintext.innerHTML = "YOU WIN!<br>your score is " + score;
+      winmenu.style.display = "flex";
+    }
   }
 };
+
 //check x axis collision to adjust position
 const checkxaxis = () => {
   ball.x += ball.vx;
-  level.platforms.forEach((platform) => {
+  levels[current_lvl].platforms.forEach((platform) => {
     if (ballhitPlatform(platform)) {
       if (ball.vx > 0) {
         ball.x = platform.x - ball.width;
@@ -233,12 +299,12 @@ const checkxaxis = () => {
 };
 const checkyaxis = () => {
   ball.y += ball.vy;
-  if (ball.y > level.ground.y - ball.height) {
-    ball.y = level.ground.y - ball.height;
+  if (ball.y > levels[current_lvl].ground.y - ball.height) {
+    ball.y = levels[current_lvl].ground.y - ball.height;
     ball.vy = -ball.vy * 0.4;
     ball.onground = true;
   }
-  level.platforms.forEach((platform) => {
+  levels[current_lvl].platforms.forEach((platform) => {
     if (ballhitPlatform(platform)) {
       if (ball.vy > 0) {
         ball.y = platform.y - ball.height;
@@ -283,8 +349,8 @@ const update = () => {
   // if (!isOnground(ball)) {
   //   ball.y += gravity;
   // }
-  if (ball.x + ball.width > level.level_width) {
-    ball.x = level.level_width - ball.width;
+  if (ball.x + ball.width > levels[current_lvl].level_width) {
+    ball.x = levels[current_lvl].level_width - ball.width;
   } else if (ball.x < 0) {
     ball.x = 0;
   }
@@ -299,7 +365,10 @@ const update = () => {
   if (ball.x - camerax < 0) {
     camerax = ball.x;
   }
-  camerax = Math.min(camerax, level.level_width - game_screen_width);
+  camerax = Math.min(
+    camerax,
+    levels[current_lvl].level_width - game_screen_width,
+  );
   checkxaxis();
   checkyaxis();
   // isOnground(ball);
@@ -317,11 +386,17 @@ const render = () => {
   }
   balldiv.style.left = ball.x + "px";
   balldiv.style.top = ball.y + "px";
-  game_world.style.left = -camerax + "px";
+  // When the level is narrower than the viewport, center it.
+  // For wide levels, the offset is 0 and behavior is unchanged.
+  const centerOffset = Math.max(
+    0,
+    (window.innerWidth - levels[current_lvl].level_width) / 2,
+  );
+  game_world.style.left = centerOffset - camerax + "px";
 
   scoredisplay.textContent = "Score: " + score;
   leveldisplay.textContent = "Level: " + leveldisp;
-  if (rectangleOverlaps(ball, level.windoor)) {
+  if (rectangleOverlaps(ball, levels[current_lvl].windoor)) {
     ballhitwindoor();
   }
 };
@@ -385,7 +460,16 @@ const theresetbtn = document.querySelector("#theresetbtn");
 theresetbtn.addEventListener("click", () => {
   window.location.reload();
 });
-control_btn.addEventListener("touchstart", () => {});
+const thenextbtn = document.querySelector("#thenextbtn");
+thenextbtn.addEventListener("click", () => {
+  if (current_lvl < levels.length - 1) {
+    current_lvl++;
+    renderlvl(); // <- this is what makes the transition work
+    winmenu.style.display = "none";
+  } else {
+  }
+});
+
 const gameLoop = () => {
   update();
   render();
